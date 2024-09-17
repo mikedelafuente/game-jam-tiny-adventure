@@ -14,8 +14,6 @@ public class Game : IDisposable
 
     private bool _isCleanedUp = false;
 
-    private TextureManager _textureManager = new TextureManager();
-    private AnimationManager _animationManager = new AnimationManager();
 
     private float _pixelWindowHeight = 560f;
 
@@ -29,8 +27,8 @@ public class Game : IDisposable
     {
         LogManager.Trace("Game.Init() started");
 
+        GlobalSettings.Init();
         // The texture manager tracks all loaded textures in the game by being the central point by which we load and unload textures
-        _textureManager.Init();
 
         // List Atlases you want to use here. You need to know what kind of atlas is in use.
         List<AtlasDefinition> atlases = new List<AtlasDefinition>() {
@@ -41,9 +39,12 @@ public class Game : IDisposable
         };
 
         // The animation manager initializes all sprite sheets for the game
-        _animationManager.Init(atlases, _textureManager);
 
-        _editor.Init(_animationManager);
+        GlobalSettings.AnimationManager.Init(atlases, GlobalSettings.TextureManager);
+        _gameState.Level.Init();
+        _gameState.Player.Init();
+        _ui.Init();
+        _editor.Init();
         LogManager.Trace("Game.Init() finished");
 
     }
@@ -67,7 +68,7 @@ public class Game : IDisposable
         _ui.Cleanup();
         _editor.Cleanup();
 
-        _animationManager.Cleanup();
+        GlobalSettings.Cleanup();
 
         _isCleanedUp = true;
         LogManager.Trace("Game.Cleanup() finished");
@@ -95,7 +96,7 @@ public class Game : IDisposable
         }
 
         _gameState.Level.Update(_gameState);
-        _gameState.Player.Update(_gameState);
+        _gameState.Player.Update(_gameState.Level);
         _ui.Update(_gameState);
         _editor.Update(_gameState.Level);
 

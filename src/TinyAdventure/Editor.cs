@@ -13,18 +13,15 @@ public class Editor
     public int CurrentAnimationIndex { get; set; } = 0;
     public Entity CurrentTile { get; set; }
 
-    private AnimationManager _animationManager;
-    public void Init(AnimationManager animationManager)
+    public void Init()
     {
-        _animationManager = animationManager;
-
-        string atlasName = _animationManager.AtlasNames[CurrentAtlasIndex].Item1;
-        string animationName = _animationManager.AtlasNames[CurrentAtlasIndex].Item2[CurrentAnimationIndex];
+        string atlasName = GlobalSettings.AnimationManager.AtlasNames[CurrentAtlasIndex].Item1;
+        string animationName = GlobalSettings.AnimationManager.AtlasNames[CurrentAtlasIndex].Item2[CurrentAnimationIndex];
 
         CurrentTile = new Entity();
         CurrentTile.Position = Vector2.Zero;
-        CurrentTile.CurrentAnimation = new Animation(_animationManager.AtlasSets[atlasName].SpriteSheet,
-            _animationManager.AtlasSets[atlasName].Animations[animationName].Frames
+        CurrentTile.CurrentAnimation = new Animation(GlobalSettings.AnimationManager.AtlasSets[atlasName].SpriteSheet,
+            GlobalSettings.AnimationManager.AtlasSets[atlasName].Animations[animationName].Frames
         );
     }
     public void Draw(Camera2D camera)
@@ -126,7 +123,7 @@ public class Editor
             // Logging in this area will create a massive number of log messages, so be mindful of making calls to log here
             if (Input.EditNextTilePressed()) {
                 CurrentAnimationIndex += 1;
-                if (CurrentAnimationIndex > _animationManager.AtlasNames[CurrentAtlasIndex].Item2.Count - 1) {
+                if (CurrentAnimationIndex > GlobalSettings.AnimationManager.AtlasNames[CurrentAtlasIndex].Item2.Count - 1) {
                     CurrentAnimationIndex = 0;
                 }
 
@@ -134,20 +131,20 @@ public class Editor
             } else if (Input.EditPreviousTilePressed()) {
                 CurrentAnimationIndex -= 1;
                 if (CurrentAnimationIndex < 0) {
-                    CurrentAnimationIndex = _animationManager.AtlasNames[CurrentAtlasIndex].Item2.Count - 1;
+                    CurrentAnimationIndex = GlobalSettings.AnimationManager.AtlasNames[CurrentAtlasIndex].Item2.Count - 1;
                 }
 
                 changeAnimation = true;
             } else if (Input.EditPreviousTileSetPressed()) {
                 CurrentAtlasIndex -= 1;
                 if (CurrentAtlasIndex < 0) {
-                    CurrentAtlasIndex = _animationManager.AtlasNames.Count - 1;
+                    CurrentAtlasIndex = GlobalSettings.AnimationManager.AtlasNames.Count - 1;
                 }
                 CurrentAnimationIndex = 0;
                 changeAnimation = true;
             } else if (Input.EditNextTileSetPressed()) {
                 CurrentAtlasIndex += 1;
-                if (CurrentAtlasIndex > _animationManager.AtlasNames.Count - 1) {
+                if (CurrentAtlasIndex > GlobalSettings.AnimationManager.AtlasNames.Count - 1) {
                     CurrentAtlasIndex = 0;
                 }
                 CurrentAnimationIndex = 0;
@@ -160,11 +157,11 @@ public class Editor
             }
 
             if (changeAnimation) {
-                string atlasName = _animationManager.AtlasNames[CurrentAtlasIndex].Item1;
-                string animationName = _animationManager.AtlasNames[CurrentAtlasIndex].Item2[CurrentAnimationIndex];
+                string atlasName = GlobalSettings.AnimationManager.AtlasNames[CurrentAtlasIndex].Item1;
+                string animationName = GlobalSettings.AnimationManager.AtlasNames[CurrentAtlasIndex].Item2[CurrentAnimationIndex];
 
-                CurrentTile.CurrentAnimation = new Animation(_animationManager.AtlasSets[atlasName].SpriteSheet,
-                    _animationManager.AtlasSets[atlasName].Animations[animationName].Frames
+                CurrentTile.CurrentAnimation = new Animation(GlobalSettings.AnimationManager.AtlasSets[atlasName].SpriteSheet,
+                    GlobalSettings.AnimationManager.AtlasSets[atlasName].Animations[animationName].Frames
                 );
             }
         }
@@ -175,11 +172,11 @@ public class Editor
 
     private void AddAtlasNamesToDebugBuffer()
     {
-        var currentAtlas = _animationManager.AtlasNames[CurrentAtlasIndex];
+        var currentAtlas = GlobalSettings.AnimationManager.AtlasNames[CurrentAtlasIndex];
         string atlasName = currentAtlas.Item1;
         string animationName = currentAtlas.Item2[CurrentAnimationIndex];
 
-        GlobalSettings.DebugLogBuffer.Append($"Atlas [{CurrentAtlasIndex + 1}/{_animationManager.AtlasNames.Count}]: {atlasName}\n");
+        GlobalSettings.DebugLogBuffer.Append($"Atlas [{CurrentAtlasIndex + 1}/{GlobalSettings.AnimationManager.AtlasNames.Count}]: {atlasName}\n");
         GlobalSettings.DebugLogBuffer.Append($"Animation [{CurrentAnimationIndex + 1}/{currentAtlas.Item2.Count}]: {animationName}\n");
 
     }

@@ -5,8 +5,16 @@ namespace TinyAdventure;
 
 public class Level
 {
+
+    public List<Tile> Tiles { get; set; } = new List<Tile>();
+
+    public Level()
+    {
+        Gravity = 0;
+    }
     public void Init()
     {
+        Gravity = 1000f;
 
     }
     public void Draw(Camera2D camera)
@@ -19,6 +27,7 @@ public class Level
     }
 
     public void Cleanup(){}
+    public float Gravity { get; set; }
 }
 
 
