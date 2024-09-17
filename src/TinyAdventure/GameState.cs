@@ -1,8 +1,15 @@
 ﻿namespace TinyAdventure;
 
-public class GameState
+public struct GameState
 {
-    public Entity CurrentEntity { get; set; }
-    public int CurrentAtlasIndex { get; set; } = 0;
-    public int CurrentAnimationIndex { get; set; } = 0;
+    public GameState()
+    {
+        Player = new Player();
+        Level = new Level();
+    }
+
+    public Player Player { get; set; }
+    public Level Level { get; set; }
+
+
 }

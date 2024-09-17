@@ -6,14 +6,24 @@ namespace TinyAdventure;
 
 public class Game : IDisposable
 {
+    private float _zoomMultiplier = 1.0f;
+    private readonly float _zoomMultiplierIncrement = -0.1f;
+
+    private readonly float _zoomMultiplierMax = 2.0f;
+    private readonly float _zoomMultiplierMin = 0.5f;
+
     private bool _isCleanedUp = false;
 
     private TextureManager _textureManager = new TextureManager();
     private AnimationManager _animationManager = new AnimationManager();
 
-    private GameState _gameState = new GameState();
-
     private float _pixelWindowHeight = 560f;
+
+    private GameState _gameState = new GameState();
+    private UI _ui = new UI();
+    private Editor _editor = new Editor();
+
+
 
     public void Init()
     {
@@ -33,16 +43,7 @@ public class Game : IDisposable
         // The animation manager initializes all sprite sheets for the game
         _animationManager.Init(atlases, _textureManager);
 
-        string atlasName = _animationManager.AtlasNames[_gameState.CurrentAtlasIndex].Item1;
-        string animationName = _animationManager.AtlasNames[_gameState.CurrentAtlasIndex].Item2[_gameState.CurrentAnimationIndex];
-
-        _gameState.CurrentEntity = new Entity();
-        _gameState.CurrentEntity.Position = Vector2.Zero;
-        _gameState.CurrentEntity.CurrentAnimation = new Animation(_animationManager.AtlasSets[atlasName].SpriteSheet,
-            _animationManager.AtlasSets[atlasName].Animations[animationName].Frames
-            );
-
-
+        _editor.Init(_animationManager);
         LogManager.Trace("Game.Init() finished");
 
     }
@@ -61,6 +62,10 @@ public class Game : IDisposable
     public void Cleanup()
     {
         LogManager.Trace("Game.Cleanup() started");
+        _gameState.Level.Cleanup();
+        _gameState.Player.Cleanup();
+        _ui.Cleanup();
+        _editor.Cleanup();
 
         _animationManager.Cleanup();
 
@@ -70,46 +75,30 @@ public class Game : IDisposable
 
     public void Update()
     {
-        bool changeAnimation = false;
-        // Logging in this area will create a massive number of log messages, so be mindful of making calls to log here
-        if (Raylib.IsKeyPressed(KeyboardKey.Up)) {
-            _gameState.CurrentAnimationIndex += 1;
-            if (_gameState.CurrentAnimationIndex > _animationManager.AtlasNames[_gameState.CurrentAtlasIndex].Item2.Count - 1) {
-                _gameState.CurrentAnimationIndex = 0;
-            }
 
-            changeAnimation = true;
-        } else if (Raylib.IsKeyPressed(KeyboardKey.Down)) {
-            _gameState.CurrentAnimationIndex -= 1;
-            if (_gameState.CurrentAnimationIndex < 0) {
-                _gameState.CurrentAnimationIndex = _animationManager.AtlasNames[_gameState.CurrentAtlasIndex].Item2.Count - 1;
-            }
-
-            changeAnimation = true;
-        } else if (Raylib.IsKeyPressed(KeyboardKey.Left)) {
-            _gameState.CurrentAtlasIndex -= 1;
-            if (_gameState.CurrentAtlasIndex < 0) {
-                _gameState.CurrentAtlasIndex = _animationManager.AtlasNames.Count - 1;
-            }
-            _gameState.CurrentAnimationIndex = 0;
-            changeAnimation = true;
-        } else if (Raylib.IsKeyPressed(KeyboardKey.Right)) {
-            _gameState.CurrentAtlasIndex += 1;
-            if (_gameState.CurrentAtlasIndex > _animationManager.AtlasNames.Count - 1) {
-                _gameState.CurrentAtlasIndex = 0;
-            }
-            _gameState.CurrentAnimationIndex = 0;
-            changeAnimation = true;
+        if (Input.DebugPressed()) {
+            GlobalSettings.IsDebugMode = !GlobalSettings.IsDebugMode;
         }
 
-        if (changeAnimation) {
-            string atlasName = _animationManager.AtlasNames[_gameState.CurrentAtlasIndex].Item1;
-            string animationName = _animationManager.AtlasNames[_gameState.CurrentAtlasIndex].Item2[_gameState.CurrentAnimationIndex];
-
-            _gameState.CurrentEntity.CurrentAnimation = new Animation(_animationManager.AtlasSets[atlasName].SpriteSheet,
-                _animationManager.AtlasSets[atlasName].Animations[animationName].Frames
-            );
+        if (Input.ZoomOutPressed()) {
+            _zoomMultiplier -= _zoomMultiplierIncrement;
+            if (_zoomMultiplier < _zoomMultiplierMin) {
+                _zoomMultiplier = _zoomMultiplierMin;
+            }
         }
+
+        if (Input.ZoomInPressed()) {
+            _zoomMultiplier += _zoomMultiplierIncrement;
+            if (_zoomMultiplier > _zoomMultiplierMax) {
+                _zoomMultiplier = _zoomMultiplierMax;
+            }
+        }
+
+        _gameState.Level.Update(_gameState);
+        _gameState.Player.Update(_gameState);
+        _ui.Update(_gameState);
+        _editor.Update(_gameState.Level);
+
     }
 
     public void Draw()
@@ -132,17 +121,20 @@ public class Game : IDisposable
         var camera = new Camera2D {
             Zoom = (screenHeight / _pixelWindowHeight) * _zoomMultiplier,
             Offset = { X = screenWidth / 2.0f, Y = screenHeight / 2.0f },
-            Target = { X = _gameState.CurrentEntity.Position.X, Y = _gameState.CurrentEntity.Position.Y }
+            Target = { X = _gameState.Player.Position.X, Y = _gameState.Player.Position.Y }
         };
 
 
         Raylib.BeginMode2D(camera);
 
-        RenderHelper.Draw(_gameState.CurrentEntity);
+
+        _gameState.Level.Draw(camera);
+        _gameState.Player.Draw(camera);
+        _ui.Draw(camera);
+        _editor.Draw(camera);
 
 
         AddInputInfoToDebugBuffer();
-        AddAtlasNamesToDebugBuffer();
         DrawDebugBuffer(camera);
 
 
@@ -152,16 +144,7 @@ public class Game : IDisposable
     }
 
 
-    private void AddAtlasNamesToDebugBuffer()
-    {
-        var currentAtlas = _animationManager.AtlasNames[_gameState.CurrentAtlasIndex];
-        string atlasName = currentAtlas.Item1;
-        string animationName = currentAtlas.Item2[_gameState.CurrentAnimationIndex];
 
-        GlobalSettings.DebugLogBuffer.Append($"Atlas [{_gameState.CurrentAtlasIndex + 1}/{_animationManager.AtlasNames.Count}]: {atlasName}\n");
-        GlobalSettings.DebugLogBuffer.Append($"Animation [{_gameState.CurrentAnimationIndex + 1}/{currentAtlas.Item2.Count}]: {animationName}\n");
-
-    }
     private void AddInputInfoToDebugBuffer()
         {
             if (GlobalSettings.IsDebugMode) {
