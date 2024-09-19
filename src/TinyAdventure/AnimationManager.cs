@@ -54,9 +54,14 @@ public class AnimationManager : IDisposable
             var atlasKeys = AtlasSets[atlasAlias].Animations.Keys.ToArray();
             AtlasNames.Add((atlasAlias, atlasKeys.ToList()));
         }
+
         LogManager.Trace("AnimationManager.Init() finished");
     }
 
+    public Animation GetAnimation(string setName, string frameSetName, AnimationLoopStrategy loopStrategy = AnimationLoopStrategy.Forward, float defaultFrameDurationMs = 80, int firstFrameIndex = 0, int lastFrameIndex = -1)
+    {
+        return new Animation(AtlasSets[setName].SpriteSheet, AtlasSets[setName].Animations[frameSetName].Frames, loopStrategy, defaultFrameDurationMs, firstFrameIndex, lastFrameIndex);
+    }
 
     private static bool IsValidAtlasSet(string alias, AtlasSet? atlasSet)
     {

@@ -7,6 +7,8 @@ namespace TinyAdventure;
             private static bool wasGamepadRightFaceDownReleased = true;
 
 
+            public static bool ShowDebugKeyMap = false;
+
             public static bool LeftPressed()
             {
                 if (Raylib.IsGamepadAvailable(0)) {
@@ -102,12 +104,12 @@ namespace TinyAdventure;
 
             public static bool ZoomOutPressed()
             {
-                return Raylib.IsKeyPressed(KeyboardKey.PageDown);
+                return Raylib.IsKeyPressed(KeyboardKey.Z);
             }
 
             public static bool ZoomInPressed()
             {
-                return Raylib.IsKeyPressed(KeyboardKey.PageUp);
+                return Raylib.IsKeyPressed(KeyboardKey.X);
             }
 
 

@@ -29,7 +29,7 @@ public class Player : Entity
     {
         Position = Vector2.Zero;
         Size = new Vector2(64, 64);
-        Speed = 100;
+        Speed = (100f / 8.0f) * 12;
         JumpForce = 300;
         CurrentVelocity = Vector2.Zero;
         IsGrounded = false;
@@ -39,13 +39,19 @@ public class Player : Entity
 
 
         // We need to set an animation
- this.CurrentAnimation =    new Animation(GlobalSettings.AnimationManager.AtlasSets["atlasTextureRaylibExample"].SpriteSheet, GlobalSettings.AnimationManager.AtlasSets["atlasTextureRaylibExample"].Animations["player_run"].Frames );
+        this.CurrentAnimation = GlobalSettings.AnimationManager.GetAnimation("player1", "player-run");
         // You can pull the origin from the sprite
         FootHitBox = new Rectangle(Position.X - 4, Position.Y + CurrentAnimation.CurrentFrame.OriginY - 4, 8.0f, 4.0f);
     }
 
     internal void Draw(Camera2D camera)
     {
+
+        if (GlobalSettings.IsDebugMode) {
+            Color hitBoxColor = new Color(0, 255, 0, 100);
+            Raylib.DrawRectangleRec(FootHitBox, hitBoxColor);
+        }
+
         RenderHelper.Draw(this);
     }
 
@@ -79,14 +85,14 @@ public class Player : Entity
         Position += CurrentVelocity * Raylib.GetFrameTime();
 
 
-        FootHitBox = new Rectangle(Position.X - 4, Position.Y + CurrentAnimation.CurrentFrame.OriginY - 4, 8.0f, 4.0f);
+        FootHitBox = new Rectangle(Position.X - (CurrentAnimation.CurrentFrame.Width/4) , Position.Y - (CurrentAnimation.CurrentFrame.Height - CurrentAnimation.CurrentFrame.OriginY - 4.0f), CurrentAnimation.CurrentFrame.Width/2, 4.0f);
 
         IsGrounded = false;
 
         foreach (var platform in level.Tiles) {
             if (Raylib.CheckCollisionRecs(FootHitBox, platform.HitBox) && CurrentVelocity.Y > 0f) {
                 CurrentVelocity.Y = 0;
-                Position = new Vector2(Position.X, platform.Position.Y - CurrentAnimation.CurrentFrame.OriginX);
+                Position = new Vector2(Position.X, platform.Position.Y);
                 IsGrounded = true;
             }
         }

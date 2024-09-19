@@ -52,4 +52,6 @@ public class Animation
             LoopStrategy = AnimationLoopStrategy.SingleFrame;
         }
     }
+
+
 }

@@ -8,7 +8,7 @@ public class Editor
 
     public static bool IsEditing = false;
 
-    public int GridSnapSize { get; set; } = 5;
+    public int GridSnapSize { get; set; } = 8;
     public int CurrentAtlasIndex { get; set; } = 0;
     public int CurrentAnimationIndex { get; set; } = 0;
     public Entity CurrentTile { get; set; }
@@ -114,6 +114,7 @@ public class Editor
         GlobalSettings.DebugLogBuffer.Append($"IsEditing: {IsEditing}");
 
         if (IsEditing) {
+
             if (Input.SaveLevelPressed()) {
                 //SaveLevel(state.Level);
             }
@@ -164,6 +165,8 @@ public class Editor
                     GlobalSettings.AnimationManager.AtlasSets[atlasName].Animations[animationName].Frames
                 );
             }
+
+
         }
 
         AddAtlasNamesToDebugBuffer();

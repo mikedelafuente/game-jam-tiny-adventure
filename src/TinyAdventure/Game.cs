@@ -7,7 +7,7 @@ namespace TinyAdventure;
 public class Game : IDisposable
 {
     private float _zoomMultiplier = 1.0f;
-    private readonly float _zoomMultiplierIncrement = -0.1f;
+    private readonly float _zoomMultiplierIncrement = 0.1f;
 
     private readonly float _zoomMultiplierMax = 2.0f;
     private readonly float _zoomMultiplierMin = 0.5f;
@@ -32,10 +32,8 @@ public class Game : IDisposable
 
         // List Atlases you want to use here. You need to know what kind of atlas is in use.
         List<AtlasDefinition> atlases = new List<AtlasDefinition>() {
-            new("atlasTexturePackerExample", "assets/atlasTexturePacker.xml", '-'),
-            new("atlasTextureRaylibExample", "assets/atlasRaylib.xml", '_'),
-            new("enemies_sheet", "assets/textures/objects/platformer-assets-base/enemies_sheet.xml", '_'),
-            new("tiles_sheet", "assets/textures/objects/platformer-assets-base/tiles_sheet.xml", '_'),
+            new("tile_set_basic1", "assets/textures/objects/super-basic-tilemap/super_basic.xml", '-'),
+            new("player1", "assets/textures/character/character_asset_pack.xml", '-')
         };
 
         // The animation manager initializes all sprite sheets for the game
@@ -110,8 +108,6 @@ public class Game : IDisposable
         // Logging in this area will create a massive number of log messages, so be mindful of making calls to log here
         var screenHeight = Raylib.GetScreenHeight();
         var screenWidth = Raylib.GetScreenWidth();
-
-        float _zoomMultiplier = 1.0f;
 
         // var camera = new Camera2D {
         //     Zoom = (screenHeight / _pixelWindowHeight) * _zoomMultiplier,
@@ -201,6 +197,7 @@ public class Game : IDisposable
                 }
 
                 GlobalSettings.DebugLogBuffer.Append(
+                    $"zoom: {_zoomMultiplier}\n" +
                     $"world_zero: ({worldZero.X:0.00}, {worldZero.Y:0.00})\n" +
                     $"world_edge: ({worldEdge.X:0.00}, {worldEdge.Y:0.00}),\n");
 

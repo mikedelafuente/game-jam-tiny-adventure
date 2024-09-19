@@ -10,6 +10,7 @@ public static class RenderHelper
         if (GlobalSettings.IsDebugMode) {
             Color hitBoxColor = new Color(0, 255, 0, 100);
             Raylib.DrawRectangleRec(entity.HitBox, hitBoxColor);
+
         }
 
         if (entity.CurrentAnimation.LoopStrategy != AnimationLoopStrategy.SingleFrame) {
@@ -26,42 +27,19 @@ public static class RenderHelper
 
         var source = ani.CurrentFrame.ViewWindow;
 
-        //var sourceWidth = _animationWidth / _floatNumberOfFrame;
-        // var source = new Rectangle
-        // {
-        //     X = ani.CurrentFrameIndex * sourceWidth,
-        //     Y = 0,
-        //     Width = sourceWidth,
-        //     Height = _animationHeight
-        // };
-
-
+        float width = source.Width;
         if (flip) {
+
             source.Width = -source.Width;
         }
 
         var dest = new Rectangle {
             X = position.X,
             Y = position.Y,
-            Width = source.Width,
+            Width = width,
             Height = source.Height
         };
-        // var dest = new Rectangle
-        // {
-        //     X = position.X,
-        //     Y = position.Y,
-        //     Width = _animationWidth / (float)ani.SpriteSheet.NumberOfFrames,
-        //     Height = _animationHeight / (float)ani.SpriteSheet.NumberOfRows
-        // };
 
-        // if (ani.ZeroPointRenderStrategy == RenderStrategy.BottomCenter)
-        // {
-        //     Raylib.DrawTexturePro(ani.Texture, source, dest, new Vector2(dest.Width / 2, dest.Height), ani.CurrentRotation, Color.White);
-        // }
-        // else
-        // {
-        //     Raylib.DrawTexturePro(ani.Texture, source, dest, Vector2.Zero, ani.CurrentRotation, Color.White);
-        // }
 
         Raylib.DrawTexturePro(ani.Texture, source, dest, new Vector2(ani.CurrentFrame.OriginX, ani.CurrentFrame.OriginY), ani.CurrentRotation, Color.White);
     }

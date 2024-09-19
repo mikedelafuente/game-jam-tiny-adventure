@@ -1,0 +1,59 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<!--
+    rTexPacker XML atlas descriptor file (v2.0)
+    Number of packed sprites:     52
+-->
+<AtlasTexture imagePath='super_basic.png' width='128' height='128' spriteCount='52' isFont='0' fontSize='32'>
+    <Sprite nameId='island_r0_c0' originX='0' originY='0' positionX='0' positionY='0' sourceWidth='16' sourceHeight='16' padding='0' trimmed='0' trimRecX='0' trimRecY='0' trimRecWidth='16' trimRecHeight='16' />
+    <Sprite nameId='island_r0_c1' originX='0' originY='0' positionX='16' positionY='0' sourceWidth='16' sourceHeight='16' padding='0' trimmed='0' trimRecX='0' trimRecY='0' trimRecWidth='16' trimRecHeight='16' />
+    <Sprite nameId='island_r0_c2' originX='0' originY='0' positionX='32' positionY='0' sourceWidth='16' sourceHeight='16' padding='0' trimmed='0' trimRecX='0' trimRecY='0' trimRecWidth='16' trimRecHeight='16' />
+    <Sprite nameId='island_r0_c3' originX='0' originY='0' positionX='48' positionY='0' sourceWidth='16' sourceHeight='16' padding='0' trimmed='0' trimRecX='0' trimRecY='0' trimRecWidth='16' trimRecHeight='16' />
+    <Sprite nameId='island_r1_c0' originX='0' originY='0' positionX='64' positionY='0' sourceWidth='16' sourceHeight='16' padding='0' trimmed='0' trimRecX='0' trimRecY='0' trimRecWidth='16' trimRecHeight='16' />
+    <Sprite nameId='island_r1_c1' originX='0' originY='0' positionX='80' positionY='0' sourceWidth='16' sourceHeight='16' padding='0' trimmed='0' trimRecX='0' trimRecY='0' trimRecWidth='16' trimRecHeight='16' />
+    <Sprite nameId='island_r1_c2' originX='0' originY='0' positionX='96' positionY='0' sourceWidth='16' sourceHeight='16' padding='0' trimmed='0' trimRecX='0' trimRecY='0' trimRecWidth='16' trimRecHeight='16' />
+    <Sprite nameId='island_r1_c3' originX='0' originY='0' positionX='112' positionY='0' sourceWidth='16' sourceHeight='16' padding='0' trimmed='0' trimRecX='0' trimRecY='0' trimRecWidth='16' trimRecHeight='16' />
+    <Sprite nameId='island_r2_c0' originX='0' originY='0' positionX='0' positionY='16' sourceWidth='16' sourceHeight='16' padding='0' trimmed='0' trimRecX='0' trimRecY='0' trimRecWidth='16' trimRecHeight='16' />
+    <Sprite nameId='island_r2_c1' originX='0' originY='0' positionX='16' positionY='16' sourceWidth='16' sourceHeight='16' padding='0' trimmed='0' trimRecX='0' trimRecY='0' trimRecWidth='16' trimRecHeight='16' />
+    <Sprite nameId='island_r2_c2' originX='0' originY='0' positionX='32' positionY='16' sourceWidth='16' sourceHeight='16' padding='0' trimmed='0' trimRecX='0' trimRecY='0' trimRecWidth='16' trimRecHeight='16' />
+    <Sprite nameId='island_r2_c3' originX='0' originY='0' positionX='48' positionY='16' sourceWidth='16' sourceHeight='16' padding='0' trimmed='0' trimRecX='0' trimRecY='0' trimRecWidth='16' trimRecHeight='16' />
+    <Sprite nameId='island_r3_c0' originX='0' originY='0' positionX='64' positionY='16' sourceWidth='16' sourceHeight='16' padding='0' trimmed='0' trimRecX='0' trimRecY='0' trimRecWidth='16' trimRecHeight='16' />
+    <Sprite nameId='island_r3_c1' originX='0' originY='0' positionX='80' positionY='16' sourceWidth='16' sourceHeight='16' padding='0' trimmed='0' trimRecX='0' trimRecY='0' trimRecWidth='16' trimRecHeight='16' />
+    <Sprite nameId='island_r3_c2' originX='0' originY='0' positionX='96' positionY='16' sourceWidth='16' sourceHeight='16' padding='0' trimmed='0' trimRecX='0' trimRecY='0' trimRecWidth='16' trimRecHeight='16' />
+    <Sprite nameId='island_r3_c3' originX='0' originY='0' positionX='112' positionY='16' sourceWidth='16' sourceHeight='16' padding='0' trimmed='0' trimRecX='0' trimRecY='0' trimRecWidth='16' trimRecHeight='16' />
+    <Sprite nameId='cavern_r0_c2' originX='0' originY='0' positionX='0' positionY='32' sourceWidth='16' sourceHeight='16' padding='0' trimmed='0' trimRecX='0' trimRecY='0' trimRecWidth='16' trimRecHeight='16' />
+    <Sprite nameId='cavern_r0_c3' originX='0' originY='0' positionX='16' positionY='32' sourceWidth='16' sourceHeight='16' padding='0' trimmed='0' trimRecX='0' trimRecY='0' trimRecWidth='16' trimRecHeight='16' />
+    <Sprite nameId='cavern_r0_c4' originX='0' originY='0' positionX='32' positionY='32' sourceWidth='16' sourceHeight='16' padding='0' trimmed='0' trimRecX='0' trimRecY='0' trimRecWidth='16' trimRecHeight='16' />
+    <Sprite nameId='cavern_r0_c5' originX='0' originY='0' positionX='48' positionY='32' sourceWidth='16' sourceHeight='16' padding='0' trimmed='0' trimRecX='0' trimRecY='0' trimRecWidth='16' trimRecHeight='16' />
+    <Sprite nameId='cavern_r1_c0' originX='0' originY='0' positionX='64' positionY='32' sourceWidth='16' sourceHeight='16' padding='0' trimmed='0' trimRecX='0' trimRecY='0' trimRecWidth='16' trimRecHeight='16' />
+    <Sprite nameId='cavern_r1_c1' originX='0' originY='0' positionX='80' positionY='32' sourceWidth='16' sourceHeight='16' padding='0' trimmed='0' trimRecX='0' trimRecY='0' trimRecWidth='16' trimRecHeight='16' />
+    <Sprite nameId='cavern_r1_c2' originX='0' originY='0' positionX='96' positionY='32' sourceWidth='16' sourceHeight='16' padding='0' trimmed='0' trimRecX='0' trimRecY='0' trimRecWidth='16' trimRecHeight='16' />
+    <Sprite nameId='cavern_r1_c3' originX='0' originY='0' positionX='112' positionY='32' sourceWidth='16' sourceHeight='16' padding='0' trimmed='0' trimRecX='0' trimRecY='0' trimRecWidth='16' trimRecHeight='16' />
+    <Sprite nameId='cavern_r1_c4' originX='0' originY='0' positionX='0' positionY='48' sourceWidth='16' sourceHeight='16' padding='0' trimmed='0' trimRecX='0' trimRecY='0' trimRecWidth='16' trimRecHeight='16' />
+    <Sprite nameId='cavern_r1_c5' originX='0' originY='0' positionX='16' positionY='48' sourceWidth='16' sourceHeight='16' padding='0' trimmed='0' trimRecX='0' trimRecY='0' trimRecWidth='16' trimRecHeight='16' />
+    <Sprite nameId='cavern_r2_c0' originX='0' originY='0' positionX='32' positionY='48' sourceWidth='16' sourceHeight='16' padding='0' trimmed='0' trimRecX='0' trimRecY='0' trimRecWidth='16' trimRecHeight='16' />
+    <Sprite nameId='cavern_r2_c1' originX='0' originY='0' positionX='48' positionY='48' sourceWidth='16' sourceHeight='16' padding='0' trimmed='0' trimRecX='0' trimRecY='0' trimRecWidth='16' trimRecHeight='16' />
+    <Sprite nameId='cavern_r2_c2' originX='0' originY='0' positionX='64' positionY='48' sourceWidth='16' sourceHeight='16' padding='0' trimmed='0' trimRecX='0' trimRecY='0' trimRecWidth='16' trimRecHeight='16' />
+    <Sprite nameId='cavern_r2_c3' originX='0' originY='0' positionX='80' positionY='48' sourceWidth='16' sourceHeight='16' padding='0' trimmed='0' trimRecX='0' trimRecY='0' trimRecWidth='16' trimRecHeight='16' />
+    <Sprite nameId='cavern_r2_c4' originX='0' originY='0' positionX='96' positionY='48' sourceWidth='16' sourceHeight='16' padding='0' trimmed='0' trimRecX='0' trimRecY='0' trimRecWidth='16' trimRecHeight='16' />
+    <Sprite nameId='cavern_r2_c5' originX='0' originY='0' positionX='112' positionY='48' sourceWidth='16' sourceHeight='16' padding='0' trimmed='0' trimRecX='0' trimRecY='0' trimRecWidth='16' trimRecHeight='16' />
+    <Sprite nameId='cavern_r3_c0' originX='0' originY='0' positionX='0' positionY='64' sourceWidth='16' sourceHeight='16' padding='0' trimmed='0' trimRecX='0' trimRecY='0' trimRecWidth='16' trimRecHeight='16' />
+    <Sprite nameId='cavern_r3_c1' originX='0' originY='0' positionX='16' positionY='64' sourceWidth='16' sourceHeight='16' padding='0' trimmed='0' trimRecX='0' trimRecY='0' trimRecWidth='16' trimRecHeight='16' />
+    <Sprite nameId='cavern_r3_c2' originX='0' originY='0' positionX='32' positionY='64' sourceWidth='16' sourceHeight='16' padding='0' trimmed='0' trimRecX='0' trimRecY='0' trimRecWidth='16' trimRecHeight='16' />
+    <Sprite nameId='cavern_r3_c3' originX='0' originY='0' positionX='48' positionY='64' sourceWidth='16' sourceHeight='16' padding='0' trimmed='0' trimRecX='0' trimRecY='0' trimRecWidth='16' trimRecHeight='16' />
+    <Sprite nameId='cavern_r3_c4' originX='0' originY='0' positionX='64' positionY='64' sourceWidth='16' sourceHeight='16' padding='0' trimmed='0' trimRecX='0' trimRecY='0' trimRecWidth='16' trimRecHeight='16' />
+    <Sprite nameId='cavern_r3_c5' originX='0' originY='0' positionX='80' positionY='64' sourceWidth='16' sourceHeight='16' padding='0' trimmed='0' trimRecX='0' trimRecY='0' trimRecWidth='16' trimRecHeight='16' />
+    <Sprite nameId='cavern_r4_c0' originX='0' originY='0' positionX='96' positionY='64' sourceWidth='16' sourceHeight='16' padding='0' trimmed='0' trimRecX='0' trimRecY='0' trimRecWidth='16' trimRecHeight='16' />
+    <Sprite nameId='cavern_r4_c1' originX='0' originY='0' positionX='112' positionY='64' sourceWidth='16' sourceHeight='16' padding='0' trimmed='0' trimRecX='0' trimRecY='0' trimRecWidth='16' trimRecHeight='16' />
+    <Sprite nameId='cavern_r4_c2' originX='0' originY='0' positionX='0' positionY='80' sourceWidth='16' sourceHeight='16' padding='0' trimmed='0' trimRecX='0' trimRecY='0' trimRecWidth='16' trimRecHeight='16' />
+    <Sprite nameId='cavern_r4_c3' originX='0' originY='0' positionX='16' positionY='80' sourceWidth='16' sourceHeight='16' padding='0' trimmed='0' trimRecX='0' trimRecY='0' trimRecWidth='16' trimRecHeight='16' />
+    <Sprite nameId='cavern_r4_c4' originX='0' originY='0' positionX='32' positionY='80' sourceWidth='16' sourceHeight='16' padding='0' trimmed='0' trimRecX='0' trimRecY='0' trimRecWidth='16' trimRecHeight='16' />
+    <Sprite nameId='cavern_r4_c5' originX='0' originY='0' positionX='48' positionY='80' sourceWidth='16' sourceHeight='16' padding='0' trimmed='0' trimRecX='0' trimRecY='0' trimRecWidth='16' trimRecHeight='16' />
+    <Sprite nameId='cavern_r5_c0' originX='0' originY='0' positionX='64' positionY='80' sourceWidth='16' sourceHeight='16' padding='0' trimmed='0' trimRecX='0' trimRecY='0' trimRecWidth='16' trimRecHeight='16' />
+    <Sprite nameId='cavern_r5_c1' originX='0' originY='0' positionX='80' positionY='80' sourceWidth='16' sourceHeight='16' padding='0' trimmed='0' trimRecX='0' trimRecY='0' trimRecWidth='16' trimRecHeight='16' />
+    <Sprite nameId='cavern_r5_c2' originX='0' originY='0' positionX='96' positionY='80' sourceWidth='16' sourceHeight='16' padding='0' trimmed='0' trimRecX='0' trimRecY='0' trimRecWidth='16' trimRecHeight='16' />
+    <Sprite nameId='cavern_r5_c3' originX='0' originY='0' positionX='112' positionY='80' sourceWidth='16' sourceHeight='16' padding='0' trimmed='0' trimRecX='0' trimRecY='0' trimRecWidth='16' trimRecHeight='16' />
+    <Sprite nameId='cavern_r5_c4' originX='0' originY='0' positionX='0' positionY='96' sourceWidth='16' sourceHeight='16' padding='0' trimmed='0' trimRecX='0' trimRecY='0' trimRecWidth='16' trimRecHeight='16' />
+    <Sprite nameId='cavern_r5_c5' originX='0' originY='0' positionX='16' positionY='96' sourceWidth='16' sourceHeight='16' padding='0' trimmed='0' trimRecX='0' trimRecY='0' trimRecWidth='16' trimRecHeight='16' />
+    <Sprite nameId='cavern_r0_c0' originX='0' originY='0' positionX='32' positionY='96' sourceWidth='16' sourceHeight='16' padding='0' trimmed='0' trimRecX='0' trimRecY='0' trimRecWidth='16' trimRecHeight='16' />
+    <Sprite nameId='cavern_r0_c1' originX='0' originY='0' positionX='48' positionY='96' sourceWidth='16' sourceHeight='16' padding='0' trimmed='0' trimRecX='0' trimRecY='0' trimRecWidth='16' trimRecHeight='16' />
+</AtlasTexture>

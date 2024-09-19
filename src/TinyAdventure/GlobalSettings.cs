@@ -15,6 +15,7 @@ public static class GlobalSettings
     public static bool SaveFilesInFormattedJson = true;
     public static float GamepadDeadZone = 0.5f;
 
+
     public static TextureManager TextureManager = new TextureManager();
     public static AnimationManager AnimationManager = new AnimationManager();
 

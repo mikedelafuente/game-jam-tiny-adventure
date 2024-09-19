@@ -20,4 +20,16 @@ public class Tile : Entity
 
         return newTile;
     }
+
+    public static Tile SimpleTile(Vector2 position, string tileSetName, string frameSetName)
+    {
+        var newTile = new Tile();
+        newTile.CurrentAnimation = GlobalSettings.AnimationManager.GetAnimation(tileSetName, frameSetName);
+        newTile.Position = position;
+        newTile.HitBox = new( position, new Vector2(newTile.CurrentAnimation.CurrentFrame.Width, newTile.CurrentAnimation.CurrentFrame.Height));
+        newTile.Size = new Vector2(newTile.CurrentAnimation.CurrentFrame.Width, newTile.CurrentAnimation.CurrentFrame.Height);
+
+        return newTile;
+
+    }
 }
