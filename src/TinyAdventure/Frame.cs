@@ -59,4 +59,27 @@ public struct Frame
     /// If this is part of an animation, this will contain a frame number. If it was badly parsed, it will be -1.
     /// </summary>
     public int AnimationFrameNumber { get; set; }
+
+
+    /// <summary>
+    /// Creates a copy of this Frame.
+    /// </summary>
+    /// <returns>A new Frame with the same values.</returns>
+    public Frame Clone()
+    {
+        return new Frame
+        {
+            SetName = this.SetName,
+            Name = this.Name,
+            ViewWindow = new Rectangle(this.ViewWindow.X, this.ViewWindow.Y, this.ViewWindow.Width, this.ViewWindow.Height),
+            DefaultDurationMs = this.DefaultDurationMs,
+            PositionX = this.PositionX,
+            PositionY = this.PositionY,
+            OriginX = this.OriginX,
+            OriginY = this.OriginY,
+            Width = this.Width,
+            Height = this.Height,
+            AnimationFrameNumber = this.AnimationFrameNumber
+        };
+    }
 }

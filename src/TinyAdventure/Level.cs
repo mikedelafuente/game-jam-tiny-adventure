@@ -17,8 +17,10 @@ public class Level
         Gravity = 1000f;
 
         // Ideally we would load a level here, but for now let's just put in a platform
-        for (var i = -10; i < 11; i++) {
-            Tiles.Add(Tile.SimpleTile(new(i * 16, 24), "tile_set_basic1", "cavern_r0_c1"));
+        if (Tiles.Count == 0) {
+            for (var i = -10; i < 11; i++) {
+                Tiles.Add(Tile.SimpleTile(new(i * 16, 16*4), "tile_set_basic1", "cavern_r0_c1"));
+            }
         }
 
     }

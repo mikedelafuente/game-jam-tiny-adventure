@@ -30,6 +30,18 @@ public class Tile : Entity
         newTile.Size = new Vector2(newTile.CurrentAnimation.CurrentFrame.Width, newTile.CurrentAnimation.CurrentFrame.Height);
 
         return newTile;
+    }
+
+    public static Tile CreateFromEntity(Vector2 position, Entity tile)
+    {
+        var newTile = new Tile();
+        newTile.CurrentAnimation = tile.CurrentAnimation.Clone();
+        newTile.Position = position;
+        newTile.HitBox = new( position, new Vector2(tile.CurrentAnimation.CurrentFrame.Width, tile.CurrentAnimation.CurrentFrame.Height));  // tile.HitBox; For now, just set the hitbox
+        newTile.Size = tile.Size;
+        newTile.Flip = tile.Flip;
+
+        return newTile;
 
     }
 }

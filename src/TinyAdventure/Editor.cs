@@ -24,16 +24,16 @@ public class Editor
             GlobalSettings.AnimationManager.AtlasSets[atlasName].Animations[animationName].Frames
         );
     }
-    public void Draw(Camera2D camera)
+    public void Draw(Camera2D camera, Level level)
     {
         if (IsEditing) {
-            DrawCurrentTile(camera);
+            DrawCurrentTile(camera, level);
             DrawEditGrid(camera);
 
         }
     }
 
-    public void DrawCurrentTile(Camera2D camera)
+    public void DrawCurrentTile(Camera2D camera, Level level)
     {
         // Get mouse position in screen coordinates
         Vector2 mpRaw = Raylib.GetMousePosition();
@@ -54,30 +54,32 @@ public class Editor
         //Raylib.DrawTextureV(CurrentTileTexture, mp, Color.White);
 
         // Input processing for placing a new platform
-        // if (Input.EditPlacePressed()) {
-        //     bool isOverlapping = false;
-        //
-        //     foreach (var (platform, idx) in state.Level.Tiles.Select((value, index) => (value, index))) {
-        //         if (Raylib.CheckCollisionPointRec(mp, platform.HitBox)) {
-        //             isOverlapping = true;
-        //             break;
-        //         }
-        //     }
-        //
-        //     if (!isOverlapping) {
-        //         state.Level.AddTile(mp, CurrentTileType);
-        //     }
-        // }
+        if (Input.EditPlacePressed()) {
+            bool isOverlapping = false;
+
+            foreach (var (platform, idx) in  level.Tiles.Select((value, index) => (value, index))) {
+                if (Raylib.CheckCollisionPointRec(mp, platform.HitBox)) {
+                    isOverlapping = true;
+                    break;
+                }
+            }
+
+            if (!isOverlapping) {
+                var tile = Tile.CreateFromEntity(mp, CurrentTile);
+
+                level.Tiles.Add(tile);
+            }
+        }
 
         // Input processing for removing a platform
-        // if (Input.EditRemovePressed()) {
-        //     for (int i = 0; i < state.Level.Tiles.Count; i++) {
-        //         if (Raylib.CheckCollisionPointRec(mp, state.Level.Tiles[i].HitBox)) {
-        //             state.Level.Tiles.RemoveAt(i); // Removes platform at the specified index
-        //             break;
-        //         }
-        //     }
-        // }
+        if (Input.EditRemovePressed()) {
+            for (int i = 0; i < level.Tiles.Count; i++) {
+                if (Raylib.CheckCollisionPointRec(mp, level.Tiles[i].HitBox)) {
+                    level.Tiles.RemoveAt(i); // Removes platform at the specified index
+                    break;
+                }
+            }
+        }
     }
 
     private void DrawEditGrid(Camera2D camera)

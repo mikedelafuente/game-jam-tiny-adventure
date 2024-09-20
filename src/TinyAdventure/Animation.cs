@@ -10,9 +10,9 @@ public enum RenderStrategy
 
 public class Animation
 {
-    private float DefaultFrameDurationMs { get; init; }
+    public float DefaultFrameDurationMs { get; init; }
 
-    private RenderStrategy RenderStrategy { get; init; }
+    public RenderStrategy RenderStrategy { get; init; }
     public AnimationLoopStrategy LoopStrategy { get; set; }
 
     public Frame[] Frames { get; init; } = [];
@@ -36,6 +36,7 @@ public class Animation
 
     public float FrameTimer = 0f;
 
+
     public Animation(Texture2D texture, List<Frame> frames, AnimationLoopStrategy loopStrategy = AnimationLoopStrategy.Forward, float defaultFrameDurationMs = 80, int firstFrameIndex = 0, int lastFrameIndex = -1)
     {
         Texture = texture;
@@ -53,5 +54,18 @@ public class Animation
         }
     }
 
+    public Animation Clone()
+    {
+        // Create a deep copy of the frames
+        var clonedFrames = Frames.Select(frame => frame.Clone()).ToList();
+
+        // Return a new instance of Animation with the same properties
+        return new Animation(Texture, clonedFrames, LoopStrategy, DefaultFrameDurationMs, FirstFrameIndex, LastFrameIndex)
+        {
+            CurrentFrameIndex = this.CurrentFrameIndex,
+            CurrentRotation = this.CurrentRotation,
+            FrameTimer = this.FrameTimer
+        };
+    }
 
 }

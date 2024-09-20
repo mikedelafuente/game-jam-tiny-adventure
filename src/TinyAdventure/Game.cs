@@ -128,7 +128,7 @@ public class Game : IDisposable
         _gameState.Level.Draw(camera);
         _gameState.Player.Draw(camera);
         _ui.Draw(camera);
-        _editor.Draw(camera);
+        _editor.Draw(camera, _gameState.Level);
 
 
         AddInputInfoToDebugBuffer();
