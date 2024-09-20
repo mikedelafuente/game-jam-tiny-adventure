@@ -17,7 +17,7 @@ public static class KnownTileSets
             public static readonly TileAlias Dash = new TileAlias(4, "player-dash", SetDetails, AnimationStrategy.Forward, 12f);
             public static readonly TileAlias Death = new TileAlias(5, "player-death", SetDetails, AnimationStrategy.Forward, 12f);
             public static readonly TileAlias Fall = new TileAlias(9, "player-new-jump", SetDetails, AnimationStrategy.ForwardSingle, 7f, 3, 5);
-            public static readonly TileAlias Hurt = new TileAlias(6, "player-hurt", SetDetails, AnimationStrategy.Forward, 12f);
+            public static readonly TileAlias Hurt = new TileAlias(6, "player-hurt", SetDetails, AnimationStrategy.ForwardSingle, 8f);
             public static readonly TileAlias Idle = new TileAlias(7, "player-idle", SetDetails, AnimationStrategy.Forward, 12f);
             public static readonly TileAlias Jab = new TileAlias(8, "player-jab", SetDetails, AnimationStrategy.Forward, 12f);
             public static readonly TileAlias Jump = new TileAlias(9, "player-new-jump", SetDetails, AnimationStrategy.Forward, 12f);

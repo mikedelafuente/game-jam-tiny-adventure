@@ -32,6 +32,11 @@ public class Player : Entity
     private Vector2 CurrentVelocity;
     private bool IsGrounded;
 
+    // Add variables to track fall distance
+    private float FallStartY;
+    private bool WasGrounded;
+    public float FallDistanceThreshold = 40f; // Set this to your desired threshold
+
     public PlayerAction CurrentAction { get; set; }
 
     public Player()
@@ -57,12 +62,11 @@ public class Player : Entity
 
     internal void Draw(Camera2D camera)
     {
-        if (GlobalSettings.IsDebugMode) {
+        if (GlobalSettings.IsDebugMode)
+        {
             Color hitBoxColor = new Color(0, 255, 0, 100);
             Raylib.DrawRectangleRec(FootHitBox, hitBoxColor);
         }
-
-
 
         RenderHelper.Draw(this);
     }
@@ -71,17 +75,28 @@ public class Player : Entity
     {
         var desiredAction = CurrentAction;
 
-        if (Input.LeftPressed()) {
+        if (CurrentAction == PlayerAction.Hurt && (CurrentAnimation.CurrentFrameIndex != CurrentAnimation.LastFrameIndex)) return;
+
+        // Store the previous grounded state
+        WasGrounded = IsGrounded;
+
+        if (Input.LeftPressed())
+        {
             Flip = true;
             CurrentVelocity.X = -Speed;
             desiredAction = PlayerAction.Run;
-        } else if (Input.RightPressed()) {
+        }
+        else if (Input.RightPressed())
+        {
             Flip = false;
             CurrentVelocity.X = Speed;
             desiredAction = PlayerAction.Run;
-        } else {
+        }
+        else
+        {
             CurrentVelocity.X = 0;
-            if (CurrentAction != PlayerAction.Land) {
+            if (CurrentAction != PlayerAction.Land)
+            {
                 desiredAction = PlayerAction.Idle;
             }
         }
@@ -89,35 +104,74 @@ public class Player : Entity
         CurrentVelocity.Y += level.Gravity * Raylib.GetFrameTime();
 
         // Calculate Y Velocity
-        if (IsGrounded && Input.JumpPressed()) {
+        if (IsGrounded && Input.JumpPressed())
+        {
             CurrentVelocity.Y = -JumpForce;
             TrySetPlayerAction(PlayerAction.Jump);
         }
 
         Position += CurrentVelocity * Raylib.GetFrameTime();
 
-
         FootHitBox = GetCurrentFootHitBox();
 
         // Always assume we could be falling
         IsGrounded = false;
 
-        // Check Collisions with the current level
-        // Ideally this would only pull in tiles that are in the viewable region.
-        foreach (var platform in level.Tiles) {
-            if (Raylib.CheckCollisionRecs(FootHitBox, platform.HitBox) && CurrentVelocity.Y > 0f) {
+        foreach (var platform in level.Tiles)
+        {
+            if (Raylib.CheckCollisionRecs(FootHitBox, platform.HitBox) && CurrentVelocity.Y > 0f)
+            {
                 CurrentVelocity.Y = 0;
                 Position = new Vector2(Position.X, platform.Position.Y);
                 IsGrounded = true;
+                break;
             }
         }
 
-        if (IsGrounded == false && CurrentAction != PlayerAction.Jump) {
-            desiredAction = PlayerAction.Fall;
-        } else if (IsGrounded && (CurrentAction == PlayerAction.Jump || CurrentAction == PlayerAction.Fall)) {
-            desiredAction = PlayerAction.Land;
-        } else if (CurrentAction == PlayerAction.Land && (CurrentAnimation.CurrentFrameIndex == CurrentAnimation.LastFrameIndex)) {
-            desiredAction = PlayerAction.Idle;
+        // Check if we just started to fall
+        if (!IsGrounded && WasGrounded)
+        {
+            // Just started to fall
+            FallStartY = Position.Y;
+        }
+
+        // Calculate fall distance
+        if (!IsGrounded && CurrentAction != PlayerAction.Jump)
+        {
+            float fallDistance = Position.Y - FallStartY;
+            if (fallDistance > FallDistanceThreshold)
+            {
+                desiredAction = PlayerAction.Fall;
+            }
+        }
+        else if (IsGrounded && (CurrentAction == PlayerAction.Jump || CurrentAction == PlayerAction.Fall))
+        {
+            float fallDistance = Position.Y - FallStartY;
+            if (fallDistance > 100f) {
+                desiredAction = PlayerAction.Hurt;
+            } else {
+                if (CurrentVelocity.X != 0)
+                {
+                    desiredAction = PlayerAction.Run;
+                }
+                else
+                {
+                    desiredAction = PlayerAction.Land;
+
+                }
+            }
+
+        }
+        else if (CurrentAction == PlayerAction.Land && (CurrentAnimation.CurrentFrameIndex == CurrentAnimation.LastFrameIndex))
+        {
+            if (CurrentVelocity.X != 0)
+            {
+                desiredAction = PlayerAction.Run;
+            }
+            else
+            {
+                desiredAction = PlayerAction.Idle;
+            }
         }
 
         TrySetPlayerAction(desiredAction);
@@ -130,12 +184,16 @@ public class Player : Entity
 
     internal void TrySetPlayerAction(PlayerAction desiredAction)
     {
-        if (CurrentAction != desiredAction) {
+        if (CurrentAction != desiredAction)
+        {
             if ((CurrentAction == PlayerAction.Fall || CurrentAction == PlayerAction.Jump) && !IsGrounded) return;
+
+            if (CurrentAction == PlayerAction.Hurt && (CurrentAnimation.CurrentFrameIndex != CurrentAnimation.LastFrameIndex)) return;
 
             Console.WriteLine($"Action changed to: {desiredAction}");
             CurrentAction = desiredAction; // TODO: Reset the animation?
-            switch (CurrentAction) {
+            switch (CurrentAction)
+            {
                 case PlayerAction.Idle:
                     SetCurrentAnimation(KnownTileSets.PlayerSet.Tiles.Idle);
                     break;
@@ -151,6 +209,9 @@ public class Player : Entity
                 case PlayerAction.Jump:
                     SetCurrentAnimation(KnownTileSets.PlayerSet.Tiles.Jump);
                     break;
+                case PlayerAction.Hurt:
+                    SetCurrentAnimation(KnownTileSets.PlayerSet.Tiles.Hurt);
+                    break;
                 default:
                     SetCurrentAnimation(KnownTileSets.PlayerSet.Tiles.Roll);
                     break;
@@ -161,8 +222,8 @@ public class Player : Entity
     private void SetCurrentAnimation(TileAlias alias)
     {
         CurrentAnimation = GlobalSettings.AnimationManager.GetAnimation(alias);
-
     }
+
     internal void Cleanup()
     {
         // This is handled by the texture manager

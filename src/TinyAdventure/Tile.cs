@@ -17,6 +17,7 @@ public class Tile : Entity
     public static Tile SimpleTile(Vector2 position, TileAlias tileAlias)
     {
         var newTile = new Tile();
+        newTile.TileAlias = tileAlias;
         newTile.CurrentAnimation = GlobalSettings.AnimationManager.GetAnimation(tileAlias);
         newTile.Position = position;
         newTile.HitBox = new( position, new Vector2(newTile.CurrentAnimation.CurrentFrame.Width, newTile.CurrentAnimation.CurrentFrame.Height));
