@@ -58,9 +58,9 @@ public class AnimationManager : IDisposable
         LogManager.Trace("AnimationManager.Init() finished");
     }
 
-    public Animation GetAnimation(string setName, string frameSetName, AnimationLoopStrategy loopStrategy = AnimationLoopStrategy.Forward, float defaultFrameDurationMs = 80, int firstFrameIndex = 0, int lastFrameIndex = -1)
+    public Animation GetAnimation(TileAlias alias)
     {
-        return new Animation(AtlasSets[setName].SpriteSheet, AtlasSets[setName].Animations[frameSetName].Frames, loopStrategy, defaultFrameDurationMs, firstFrameIndex, lastFrameIndex);
+        return new Animation(AtlasSets[alias.TileSet.Alias].SpriteSheet, AtlasSets[alias.TileSet.Alias].Animations[alias.Alias].Frames, alias.Strategy,  1000f/ alias.FramesPerSecond, alias.FirstFrameIndex, alias.LastFrameIndex);
     }
 
     private static bool IsValidAtlasSet(string alias, AtlasSet? atlasSet)

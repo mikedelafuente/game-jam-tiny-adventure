@@ -1,4 +1,5 @@
 ﻿using Raylib_cs;
+using TinyAdventure.Globals;
 
 namespace TinyAdventure
 {

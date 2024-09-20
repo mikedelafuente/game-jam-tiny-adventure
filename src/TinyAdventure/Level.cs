@@ -1,5 +1,6 @@
 using System.Numerics;
 using Raylib_cs;
+using TinyAdventure.Globals;
 
 namespace TinyAdventure;
 
@@ -19,11 +20,11 @@ public class Level
         // Ideally we would load a level here, but for now let's just put in a platform
         if (Tiles.Count == 0) {
             for (var i = -10; i < 11; i++) {
-                Tiles.Add(Tile.SimpleTile(new(i * 16, 16*4), "tile_set_basic1", "cavern_r0_c1"));
+                Tiles.Add(Tile.SimpleTile(new(i * 16, 16*4),  KnownTileSets.SuperBasicTileSet.Tiles.CavernR0C1));
             }
         }
-
     }
+    
     public void Draw(Camera2D camera)
     {
         foreach (var tile in Tiles) {

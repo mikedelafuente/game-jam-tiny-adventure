@@ -1,5 +1,6 @@
 ﻿using System.Numerics;
 using Raylib_cs;
+using TinyAdventure.Globals;
 
 namespace TinyAdventure;
 
@@ -11,18 +12,11 @@ public class Editor
     public int GridSnapSize { get; set; } = 8;
     public int CurrentAtlasIndex { get; set; } = 0;
     public int CurrentAnimationIndex { get; set; } = 0;
-    public Entity CurrentTile { get; set; }
+    public Tile CurrentTile { get; set; }
 
     public void Init()
     {
-        string atlasName = GlobalSettings.AnimationManager.AtlasNames[CurrentAtlasIndex].Item1;
-        string animationName = GlobalSettings.AnimationManager.AtlasNames[CurrentAtlasIndex].Item2[CurrentAnimationIndex];
-
-        CurrentTile = new Entity();
-        CurrentTile.Position = Vector2.Zero;
-        CurrentTile.CurrentAnimation = new Animation(GlobalSettings.AnimationManager.AtlasSets[atlasName].SpriteSheet,
-            GlobalSettings.AnimationManager.AtlasSets[atlasName].Animations[animationName].Frames
-        );
+        CurrentTile = Tile.SimpleTile(Vector2.Zero, Globals.KnownTileSets.SuperBasicTileSet.Tiles.CavernR0C0);
     }
     public void Draw(Camera2D camera, Level level)
     {

@@ -1,16 +1,29 @@
 ﻿using System.Numerics;
 using Raylib_cs;
+using TinyAdventure.Globals;
 
 namespace TinyAdventure;
 
 public enum PlayerAction
 {
-    Idle,
-    Run,
-    Jump,
+    Attack,
+    Dash,
+    Death,
     Fall,
-    Land
+    Hurt,
+    Idle,
+    Jab,
+    Jump,
+    Land,
+    Climb,
+    Pull,
+    Push,
+    Roll,
+    Run,
+    Slide,
+    Walk
 }
+
 public class Player : Entity
 {
     public Rectangle FootHitBox { get; set; }
@@ -35,22 +48,21 @@ public class Player : Entity
         IsGrounded = false;
 
         CurrentAction = PlayerAction.Idle;
-        CurrentAction = PlayerAction.Idle;
-
 
         // We need to set an animation
-        this.CurrentAnimation = GlobalSettings.AnimationManager.GetAnimation("player1", "player-run");
+        this.CurrentAnimation = GlobalSettings.AnimationManager.GetAnimation(Globals.KnownTileSets.PlayerSet.Tiles.Idle);
         // You can pull the origin from the sprite
-        FootHitBox = new Rectangle(Position.X - 4, Position.Y + CurrentAnimation.CurrentFrame.OriginY - 4, 8.0f, 4.0f);
+        FootHitBox = GetCurrentFootHitBox();
     }
 
     internal void Draw(Camera2D camera)
     {
-
         if (GlobalSettings.IsDebugMode) {
             Color hitBoxColor = new Color(0, 255, 0, 100);
             Raylib.DrawRectangleRec(FootHitBox, hitBoxColor);
         }
+
+
 
         RenderHelper.Draw(this);
     }
@@ -85,10 +97,13 @@ public class Player : Entity
         Position += CurrentVelocity * Raylib.GetFrameTime();
 
 
-        FootHitBox = new Rectangle(Position.X - (CurrentAnimation.CurrentFrame.Width/4) , Position.Y - (CurrentAnimation.CurrentFrame.Height - CurrentAnimation.CurrentFrame.OriginY - 4.0f), CurrentAnimation.CurrentFrame.Width/2, 4.0f);
+        FootHitBox = GetCurrentFootHitBox();
 
+        // Always assume we could be falling
         IsGrounded = false;
 
+        // Check Collisions with the current level
+        // Ideally this would only pull in tiles that are in the viewable region.
         foreach (var platform in level.Tiles) {
             if (Raylib.CheckCollisionRecs(FootHitBox, platform.HitBox) && CurrentVelocity.Y > 0f) {
                 CurrentVelocity.Y = 0;
@@ -108,16 +123,46 @@ public class Player : Entity
         TrySetPlayerAction(desiredAction);
     }
 
+    private Rectangle GetCurrentFootHitBox()
+    {
+        return new Rectangle(Position.X - (CurrentAnimation.CurrentFrame.Width / 4), Position.Y - (CurrentAnimation.CurrentFrame.Height - CurrentAnimation.CurrentFrame.OriginY - 4.0f), CurrentAnimation.CurrentFrame.Width / 2, 4.0f);
+    }
+
     internal void TrySetPlayerAction(PlayerAction desiredAction)
     {
         if (CurrentAction != desiredAction) {
             if ((CurrentAction == PlayerAction.Fall || CurrentAction == PlayerAction.Jump) && !IsGrounded) return;
 
             Console.WriteLine($"Action changed to: {desiredAction}");
-            CurrentAction = desiredAction;  // TODO: Reset the animation?
+            CurrentAction = desiredAction; // TODO: Reset the animation?
+            switch (CurrentAction) {
+                case PlayerAction.Idle:
+                    SetCurrentAnimation(KnownTileSets.PlayerSet.Tiles.Idle);
+                    break;
+                case PlayerAction.Fall:
+                    SetCurrentAnimation(KnownTileSets.PlayerSet.Tiles.Fall);
+                    break;
+                case PlayerAction.Run:
+                    SetCurrentAnimation(KnownTileSets.PlayerSet.Tiles.Run);
+                    break;
+                case PlayerAction.Land:
+                    SetCurrentAnimation(KnownTileSets.PlayerSet.Tiles.Land);
+                    break;
+                case PlayerAction.Jump:
+                    SetCurrentAnimation(KnownTileSets.PlayerSet.Tiles.Jump);
+                    break;
+                default:
+                    SetCurrentAnimation(KnownTileSets.PlayerSet.Tiles.Roll);
+                    break;
+            }
         }
     }
 
+    private void SetCurrentAnimation(TileAlias alias)
+    {
+        CurrentAnimation = GlobalSettings.AnimationManager.GetAnimation(alias);
+
+    }
     internal void Cleanup()
     {
         // This is handled by the texture manager

@@ -1,5 +1,6 @@
 ﻿using System.Numerics;
 using Raylib_cs;
+using TinyAdventure.Globals;
 
 namespace TinyAdventure;
 
@@ -13,7 +14,7 @@ public static class RenderHelper
 
         }
 
-        if (entity.CurrentAnimation.LoopStrategy != AnimationLoopStrategy.SingleFrame) {
+        if (entity.CurrentAnimation.Strategy != AnimationStrategy.SingleFrame) {
             UpdateAnimation(entity.CurrentAnimation);
         }
 
@@ -51,17 +52,17 @@ public static class RenderHelper
         ani.FrameTimer += Raylib.GetFrameTime();
 
         while (ani.FrameTimer > ani.GetCurrentFrameDurationSeconds()) {
-            if (ani.LoopStrategy is AnimationLoopStrategy.Forward
-                or AnimationLoopStrategy.ForwardSingle
-                or AnimationLoopStrategy.PingPongForward) {
+            if (ani.Strategy is AnimationStrategy.Forward
+                or AnimationStrategy.ForwardSingle
+                or AnimationStrategy.PingPongForward) {
                 ani.CurrentFrameIndex += 1;
 
                 if (ani.CurrentFrameIndex == ani.LastFrameIndex + 1) // If we are going beyond the current LastFrame Index
                 {
-                    if (ani.LoopStrategy == AnimationLoopStrategy.PingPongForward) {
+                    if (ani.Strategy == AnimationStrategy.PingPongForward) {
                         ani.CurrentFrameIndex -= 1;
-                        ani.LoopStrategy = AnimationLoopStrategy.PingPongBackward;
-                    } else if (ani.LoopStrategy == AnimationLoopStrategy.Forward) {
+                        ani.Strategy = AnimationStrategy.PingPongBackward;
+                    } else if (ani.Strategy == AnimationStrategy.Forward) {
                         ani.CurrentFrameIndex = ani.FirstFrameIndex; // Loop around
                     } else {
                         ani.CurrentFrameIndex = ani.LastFrameIndex;
@@ -69,15 +70,15 @@ public static class RenderHelper
                 }
 
                 ani.FrameTimer -= ani.GetCurrentFrameDurationSeconds();
-            } else if (ani.LoopStrategy is AnimationLoopStrategy.Backward
-                       or AnimationLoopStrategy.BackwardSingle
-                       or AnimationLoopStrategy.PingPongBackward) {
+            } else if (ani.Strategy is AnimationStrategy.Backward
+                       or AnimationStrategy.BackwardSingle
+                       or AnimationStrategy.PingPongBackward) {
                 ani.CurrentFrameIndex -= 1;
                 if (ani.CurrentFrameIndex == ani.LastFrameIndex) {
-                    if (ani.LoopStrategy == AnimationLoopStrategy.PingPongBackward) {
+                    if (ani.Strategy == AnimationStrategy.PingPongBackward) {
                         ani.CurrentFrameIndex += 1;
-                        ani.LoopStrategy = AnimationLoopStrategy.PingPongForward;
-                    } else if (ani.LoopStrategy == AnimationLoopStrategy.Backward) {
+                        ani.Strategy = AnimationStrategy.PingPongForward;
+                    } else if (ani.Strategy == AnimationStrategy.Backward) {
                         ani.CurrentFrameIndex = ani.LastFrameIndex;
                     } else {
                         ani.CurrentFrameIndex = ani.FirstFrameIndex;
@@ -92,15 +93,15 @@ public static class RenderHelper
 
     private static bool ShouldUpdateAnimation(Animation ani)
     {
-        if (ani.LoopStrategy == AnimationLoopStrategy.SingleFrame) return false;
+        if (ani.Strategy == AnimationStrategy.SingleFrame) return false;
 
         if (ani.Frames.Length <= 1) return false;
 
-        if (ani.LoopStrategy == AnimationLoopStrategy.None) return false;
+        if (ani.Strategy == AnimationStrategy.None) return false;
 
-        if (ani.LoopStrategy == AnimationLoopStrategy.ForwardSingle && ani.CurrentFrameIndex == ani.LastFrameIndex) return false;
+        if (ani.Strategy == AnimationStrategy.ForwardSingle && ani.CurrentFrameIndex == ani.LastFrameIndex) return false;
 
-        if (ani.LoopStrategy == AnimationLoopStrategy.BackwardSingle && ani.CurrentFrameIndex == ani.FirstFrameIndex) return false;
+        if (ani.Strategy == AnimationStrategy.BackwardSingle && ani.CurrentFrameIndex == ani.FirstFrameIndex) return false;
 
         return true;
     }

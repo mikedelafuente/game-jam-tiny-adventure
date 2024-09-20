@@ -1,4 +1,5 @@
 using Raylib_cs;
+using TinyAdventure.Globals;
 
 namespace TinyAdventure;
 
@@ -13,7 +14,7 @@ public class Animation
     public float DefaultFrameDurationMs { get; init; }
 
     public RenderStrategy RenderStrategy { get; init; }
-    public AnimationLoopStrategy LoopStrategy { get; set; }
+    public AnimationStrategy Strategy { get; set; }
 
     public Frame[] Frames { get; init; } = [];
 
@@ -37,11 +38,11 @@ public class Animation
     public float FrameTimer = 0f;
 
 
-    public Animation(Texture2D texture, List<Frame> frames, AnimationLoopStrategy loopStrategy = AnimationLoopStrategy.Forward, float defaultFrameDurationMs = 80, int firstFrameIndex = 0, int lastFrameIndex = -1)
+    public Animation(Texture2D texture, List<Frame> frames, AnimationStrategy strategy = AnimationStrategy.Forward, float defaultFrameDurationMs = 80, int firstFrameIndex = 0, int lastFrameIndex = -1)
     {
         Texture = texture;
         Frames = frames.ToArray();
-        LoopStrategy = loopStrategy;
+        Strategy = strategy;
         DefaultFrameDurationMs = defaultFrameDurationMs >= GlobalSettings.DefaultFrameDurationMsFloor ? defaultFrameDurationMs : GlobalSettings.DefaultFrameDurationMsFloor;
 
         FirstFrameIndex = firstFrameIndex;
@@ -50,7 +51,7 @@ public class Animation
 
 
         if (Frames.Length == 1) {
-            LoopStrategy = AnimationLoopStrategy.SingleFrame;
+            Strategy = AnimationStrategy.SingleFrame;
         }
     }
 
@@ -60,7 +61,7 @@ public class Animation
         var clonedFrames = Frames.Select(frame => frame.Clone()).ToList();
 
         // Return a new instance of Animation with the same properties
-        return new Animation(Texture, clonedFrames, LoopStrategy, DefaultFrameDurationMs, FirstFrameIndex, LastFrameIndex)
+        return new Animation(Texture, clonedFrames, Strategy, DefaultFrameDurationMs, FirstFrameIndex, LastFrameIndex)
         {
             CurrentFrameIndex = this.CurrentFrameIndex,
             CurrentRotation = this.CurrentRotation,

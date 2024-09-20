@@ -1,6 +1,7 @@
 ﻿using System.Numerics;
 using System.Xml;
 using Raylib_cs;
+using TinyAdventure.Globals;
 
 namespace TinyAdventure;
 
@@ -28,23 +29,21 @@ public class Game : IDisposable
         LogManager.Trace("Game.Init() started");
 
         GlobalSettings.Init();
-        // The texture manager tracks all loaded textures in the game by being the central point by which we load and unload textures
 
+        // The texture manager tracks all loaded textures in the game by being the central point by which we load and unload textures
         // List Atlases you want to use here. You need to know what kind of atlas is in use.
         List<AtlasDefinition> atlases = new List<AtlasDefinition>() {
-            new("tile_set_basic1", "assets/textures/objects/super-basic-tilemap/super_basic.xml", '-'),
-            new("player1", "assets/textures/character/character_asset_pack.xml", '-')
+            new( Globals.KnownTileSets.SuperBasicTileSet.SetDetails.Alias, Globals.KnownTileSets.SuperBasicTileSet.AssetPath, Globals.KnownTileSets.SuperBasicTileSet.SetDelimiter),
+            new( Globals.KnownTileSets.PlayerSet.SetDetails.Alias, Globals.KnownTileSets.PlayerSet.AssetPath, Globals.KnownTileSets.PlayerSet.SetDelimiter)
         };
 
         // The animation manager initializes all sprite sheets for the game
-
         GlobalSettings.AnimationManager.Init(atlases, GlobalSettings.TextureManager);
         _gameState.Level.Init();
         _gameState.Player.Init();
         _ui.Init();
         _editor.Init();
         LogManager.Trace("Game.Init() finished");
-
     }
 
     public void Dispose()
